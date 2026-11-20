@@ -1,1 +1,58 @@
 点灯
+
+
+点单个灯
+1.先用`LED_Init()`初始化所需要的引脚  具体看.md
+2.再利用函数来控制高电平或低电平的输入
+
+```c
+#include "stm32f10x.h"  //输入所需要的头文件
+#include "Delay.h"
+#include "LED.h"   //储存初始化引脚的文件
+
+int main(void)
+{
+  LED_Init();           //初始化
+  while(1)
+{
+    GPIO_ResetBits(GPIOA,GPIO_Pin_0);
+    Delay_ms(500);             //延迟函数 参考江协的文件
+    GPIO_SetBits(GPIOA,GPIO_Pin_0);
+  	Delay_ms(500);
+	
+  	GPIO_WriteBit(GPIOA,GPIO_Pin_0,Bit_RESET);
+  	Delay_ms(500);
+  	GPIO_WriteBit(GPIOA,GPIO_Pin_0,Bit_SET);
+  	Delay_ms(500);
+	}
+}
+```
+
+注意：不要忘写头文件，提前把.c和.h文件写好，直接调用函数
+
+
+点流水灯
+
+
+```c
+#include "stm32f10x.h"  //输入所需要的头文件
+#include "Delay.h"
+#include "LED.h"   //储存初始化引脚的文件
+
+int main(void)
+{
+    LED_Init();           //初始化 要在结构体初始化的引脚选择GPIO_Pin_All，选择全部A引脚
+
+    while(1)              //无限循环
+    {
+      GPIO_Write(GPIOA,~0x0001);     //0000 0000 0000 0001  使PA0输出0，灯亮。其它为1，灯灭
+	    Delay_ms(500);
+    	GPIO_Write(GPIOA,~0x0002);     //0000 0000 0000 0010
+    	Delay_ms(500);
+    	GPIO_Write(GPIOA,~0x0004);     //0000 0000 0000 0100
+    	Delay_ms(500);
+	    GPIO_Write(GPIOA,~0x0008);     //0000 0000 000 1000
+	    Delay_ms(500);
+}
+
+```
