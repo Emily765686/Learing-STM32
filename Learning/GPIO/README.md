@@ -77,3 +77,6 @@ uint16_t GPIO_ReadInputData(GPIO_TypeDef* GPIOx);
 // 作用：读取整个端口16个输入引脚，返回16位数据
 
 ```
+
+
+`当前主要困难：能看懂代码，但是不懂硬件的底层逻辑，如推挽输出，上拉输出等等，导致setbits或resetbits有点分不清是亮还是暗`
